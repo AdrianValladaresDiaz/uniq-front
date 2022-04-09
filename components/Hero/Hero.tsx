@@ -8,9 +8,7 @@ interface HeroProps {
 const Hero = ({ content }: HeroProps) => {
   const [index, setIndex] = useState(0);
 
-  useEffect(() => {
-    console.log(index);
-  }, [index]);
+  useEffect(() => {}, [index]);
 
   const moveLeft = () => {
     setIndex((index + content.length - 1) % content.length);
@@ -20,11 +18,21 @@ const Hero = ({ content }: HeroProps) => {
     setIndex((index + 1) % content.length);
   };
 
+  const findNextContentIndex = (direction: "left" | "right") => {
+    return direction === "left"
+      ? (index + content.length - 1) % content.length
+      : (index + 1) % content.length;
+  };
+
   return (
     <StyledHero className="hero">
-      <div className="hero-content__center"></div>
-      <div className="hero-content__left"></div>
-      <div className="hero-content__right"></div>
+      <div className="hero-content__center">{content[index]}</div>
+      <div className="hero-content__left">
+        {content[findNextContentIndex("left")]}
+      </div>
+      <div className="hero-content__right">
+        {content[findNextContentIndex("right")]}
+      </div>
       <button onClick={moveLeft}>{"<"}</button>
       <button onClick={moveRight}>{">"}</button>
     </StyledHero>
