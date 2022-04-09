@@ -26,12 +26,14 @@ const Hero = ({ content }: HeroProps) => {
 
   return (
     <StyledHero className="hero">
-      <div className="hero-content__center">{content[index]}</div>
-      <div className="hero-content__left">
-        {content[findNextContentIndex("left")]}
-      </div>
-      <div className="hero-content__right">
-        {content[findNextContentIndex("right")]}
+      <div className="hero-content">
+        <div className="hero-content__center">{content[index]}</div>
+        <div className="hero-content__left">
+          {content[findNextContentIndex("left")]}
+        </div>
+        <div className="hero-content__right">
+          {content[findNextContentIndex("right")]}
+        </div>
       </div>
       <button onClick={moveLeft}>{"<"}</button>
       <button onClick={moveRight}>{">"}</button>
@@ -45,10 +47,18 @@ const StyledHero = styled.article`
   background-color: deeppink;
   padding: 50px;
   display: flex;
-  & > div {
+  & > .hero-content {
     background-color: deepskyblue;
     width: 100%;
     height: 100%;
+    overflow: hidden;
+    display: flex;
+    & > * {
+      width: 100%;
+      height: 100%;
+      flex: 1 0 auto;
+      border: 2px solid black;
+    }
   }
 `;
 
