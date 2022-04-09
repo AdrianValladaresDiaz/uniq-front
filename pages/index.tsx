@@ -1,8 +1,9 @@
 import type { NextPage } from "next";
-import Head from "next/head";
+import Hero from "../components/Hero/Hero";
 
 const Home: NextPage = () => {
-  return <div>wololoo</div>;
+  const content = [1, 2, 3, 4];
+  return <Hero content={content} />;
 };
 
 export default Home;
