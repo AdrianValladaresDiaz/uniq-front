@@ -22,7 +22,11 @@ const Hero = ({ content }: HeroProps) => {
   };
 
   const moveRight = () => {
-    setIndex((index + 1) % content.length);
+    rightRef.current?.classList.add("hero-content__right--centered");
+    setTimeout(() => {
+      rightRef.current?.classList.remove("hero-content__right--centered");
+      setIndex((index + 1) % content.length);
+    }, 1500);
   };
 
   const findNextContentIndex = (direction: "left" | "right") => {
@@ -79,6 +83,10 @@ const StyledHero = styled.article`
         }
         &__right {
           transform: translateX(100%);
+          &--centered {
+            transition: all 1s linear;
+            transform: translateX(0);
+          }
         }
       }
     }
