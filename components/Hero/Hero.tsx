@@ -48,8 +48,12 @@ const Hero = ({ content }: HeroProps) => {
           {content[findNextContentIndex("right")]}
         </div>
       </div>
-      <button onClick={moveLeft}>{"<"}</button>
-      <button onClick={moveRight}>{">"}</button>
+      <button onClick={moveLeft} title="move hero left">
+        {"<"}
+      </button>
+      <button onClick={moveRight} title="move hero right">
+        {">"}
+      </button>
     </StyledHero>
   );
 };
@@ -92,5 +96,7 @@ const StyledHero = styled.article`
     }
   }
 `;
+
+const SideContainer = styled.div``;
 
 export default Hero;
