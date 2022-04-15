@@ -60,24 +60,25 @@ const Hero = ({ content }: HeroProps) => {
 
 const StyledHero = styled.article`
   width: 100%;
-  height: 500px;
   background-color: deeppink;
   padding: 50px;
   display: flex;
   & > .hero-content {
     background-color: deepskyblue;
     width: 100%;
-    height: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
     display: flex;
     position: relative;
     & > * {
       width: 100%;
-      height: 100%;
       flex: 1 0 auto;
       border: 2px solid black;
       position: absolute;
       &.hero-content {
+        height: auto;
+        &__center {
+          position: relative;
+        }
         &__left {
           transform: translateX(-100%);
           &--centered {
@@ -96,7 +97,5 @@ const StyledHero = styled.article`
     }
   }
 `;
-
-const SideContainer = styled.div``;
 
 export default Hero;
