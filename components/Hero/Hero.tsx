@@ -1,24 +1,25 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import mediaBreackPoints from "../../styles/mediaBreakPoints";
+import { HeroButton, StyledHero } from "./styles";
 
 interface HeroProps {
   content: ReactNode[];
+  slideDuration: number;
 }
 
-const Hero = ({ content }: HeroProps) => {
+const Hero = ({ content, slideDuration }: HeroProps) => {
   const [index, setIndex] = useState(0);
   const centerRef = useRef<HTMLDivElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {}, [index]);
 
   const moveLeft = () => {
     leftRef.current?.classList.add("hero-content__left--centered");
     setTimeout(() => {
       leftRef.current?.classList.remove("hero-content__left--centered");
       setIndex((index + content.length - 1) % content.length);
-    }, 1500);
+    }, slideDuration);
   };
 
   const moveRight = () => {
@@ -26,7 +27,7 @@ const Hero = ({ content }: HeroProps) => {
     setTimeout(() => {
       rightRef.current?.classList.remove("hero-content__right--centered");
       setIndex((index + 1) % content.length);
-    }, 1500);
+    }, slideDuration);
   };
 
   const findNextContentIndex = (direction: "left" | "right") => {
@@ -36,7 +37,7 @@ const Hero = ({ content }: HeroProps) => {
   };
 
   return (
-    <StyledHero className="hero">
+    <StyledHero className="hero" slideDuration={`${slideDuration}ms`}>
       <div className="hero-content">
         <div className="hero-content__center" ref={centerRef}>
           {content[index]}
@@ -47,55 +48,15 @@ const Hero = ({ content }: HeroProps) => {
         <div className="hero-content__right" ref={rightRef}>
           {content[findNextContentIndex("right")]}
         </div>
+        <HeroButton onClick={moveLeft} title="move hero left" edge="left">
+          {"<"}
+        </HeroButton>
+        <HeroButton onClick={moveRight} title="move hero right" edge="right">
+          {">"}
+        </HeroButton>
       </div>
-      <button onClick={moveLeft} title="move hero left">
-        {"<"}
-      </button>
-      <button onClick={moveRight} title="move hero right">
-        {">"}
-      </button>
     </StyledHero>
   );
 };
-
-const StyledHero = styled.article`
-  width: 100%;
-  background-color: deeppink;
-  padding: 50px;
-  display: flex;
-  & > .hero-content {
-    background-color: deepskyblue;
-    width: 100%;
-    overflow-x: hidden;
-    display: flex;
-    position: relative;
-    & > * {
-      width: 100%;
-      flex: 1 0 auto;
-      border: 2px solid black;
-      position: absolute;
-      &.hero-content {
-        height: auto;
-        &__center {
-          position: relative;
-        }
-        &__left {
-          transform: translateX(-100%);
-          &--centered {
-            transition: all 1s linear;
-            transform: translateX(0);
-          }
-        }
-        &__right {
-          transform: translateX(100%);
-          &--centered {
-            transition: all 1s linear;
-            transform: translateX(0);
-          }
-        }
-      }
-    }
-  }
-`;
 
 export default Hero;
