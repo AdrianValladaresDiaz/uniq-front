@@ -24,7 +24,7 @@ const Home = ({ heroImages }: HomeProps): JSX.Element => {
     ));
   }, [heroImages]);
 
-  return <Hero content={heroContent} />;
+  return <Hero content={heroContent} slideDuration={1000} />;
 };
 
 export const getStaticProps = () => {
