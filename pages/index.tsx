@@ -1,24 +1,38 @@
-import type { NextPage } from "next";
+import * as fs from "fs";
 import Image from "next/image";
+import path from "path";
+import { useMemo } from "react";
 import Hero from "../components/Hero/Hero";
-import landscape from "/public/images/hero/colorfulLandscape.webp";
-import desigual from "/public/images/hero/desigualHero.jpg";
-import oceanWaves from "/public/images/hero/oceanWaves.jpg";
-import plantitas from "/public/images/hero/plantitas.jpg";
-import purpleWave from "/public/images/hero/purpleWave.jpg";
-import smoothWaves from "/public/images/hero/smoothWaves.jpg";
 
-const Home: NextPage = () => {
-  return <Hero content={content} />;
+interface HomeProps {
+  heroImages: string[];
+}
+
+const Home = ({ heroImages }: HomeProps): JSX.Element => {
+  const heroContent = useMemo(() => {
+    return heroImages.map((image) => (
+      <Image
+        src={image}
+        alt={image.split("/").pop()}
+        key={image.split("/").pop()}
+        layout="responsive"
+        width="1920"
+        height="851"
+        priority
+        quality={100}
+      />
+    ));
+  }, [heroImages]);
+
+  return <Hero content={heroContent} />;
 };
 
-const content = [
-  <Image src={landscape} alt="whatever" key="1" layout="fill" />,
-  <Image src={desigual} alt="whatever" key="1" layout="fill" />,
-  <Image src={oceanWaves} alt="whatever" key="1" layout="fill" />,
-  <Image src={plantitas} alt="whatever" key="1" layout="fill" />,
-  <Image src={purpleWave} alt="whatever" key="1" layout="fill" />,
-  <Image src={smoothWaves} alt="whatever" key="1" layout="fill" />,
-];
+export const getStaticProps = () => {
+  const heroContentDirectory = path.join(process.cwd(), "public/images/hero");
+  const files = fs.readdirSync(heroContentDirectory);
+  const heroImages = files.map((file) => `/images/hero/${file}`);
+
+  return { props: { heroImages } };
+};
 
 export default Home;
